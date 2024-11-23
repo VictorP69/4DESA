@@ -1,0 +1,43 @@
+version: '3.9'
+
+services:
+  sql:
+    image: 'mysql:8.0'
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: sqldb
+      MYSQL_USER: victor
+      MYSQL_PASSWORD: victor
+    ports:
+      - "3305:3306"
+    networks:
+      - db
+    volumes:
+      - mysql:/var/lib/mysql
+
+  server:
+    build:
+      context: ./social-media
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8080"
+    environment:
+      - DATABASE_ENV=prod
+    develop:
+      watch:
+        - action: rebuild
+          path: ./social-media
+    depends_on:
+      - sql
+    networks:
+      - app
+      - db
+
+networks:
+  app:
+    driver: bridge
+  db:
+    driver: bridge
+
+volumes:
+  mysql:
