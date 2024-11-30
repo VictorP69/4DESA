@@ -19,7 +19,12 @@ namespace social_media.Repository.PostRepository
             var post = await context.Posts.FindAsync(id);
             return post;
         }
-        public async Task<Post> Create([FromBody] Post post)
+        public async Task<List<Post>> GetPostsByUser(User user)
+        {
+            var posts = await context.Posts.Where(p => p.User == user).ToListAsync();
+            return posts;
+        }
+        public async Task<Post> Create(Post post)
         {
             await context.Posts.AddAsync(post);
             await context.SaveChangesAsync();

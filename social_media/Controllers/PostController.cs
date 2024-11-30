@@ -53,16 +53,16 @@ namespace social_media.Controllers
             }
         }
 
-        [HttpPut]
-        public async Task<ApiResponse<Post>> Edit(Guid postId, [FromBody] UpdatePostDto updatePostDto)
+        [HttpGet("/user/{userId}")]
+        public async Task<ApiResponse<List<Post>>> PostsByUser(User userId)
         {
             try
             {
-                var updatedPost = await postService.Update(postId, updatePostDto);
-                return new ApiResponse<Post>(200, updatedPost);
+                var posts = await postService.GetPostsByUser(userId);
+                return new ApiResponse<List<Post>>(200, posts);
             } catch(Exception ex)
             {
-                return new ApiResponse<Post>(500, errors: new List<string> { ex.Message });
+                return new ApiResponse<List<Post>>(500, errors: new List<string> { ex.Message });
             }
         }
 

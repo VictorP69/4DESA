@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using social_media.Contexts;
+using social_media.Repository.CommentRepository;
 using social_media.Repository.PostRepository;
 using social_media.Repository.UserRepository;
+using social_media.Services.CommentService;
 using social_media.Services.MediaService;
 using social_media.Services.PostService;
 using social_media.Services.UserService;
@@ -26,6 +28,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPostRepository, PostRepository>();
 builder.Services.AddScoped<IPostService, PostService>();
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IMediaService, MediaService>();
 
 var app = builder.Build();

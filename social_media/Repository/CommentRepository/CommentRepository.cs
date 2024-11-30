@@ -1,6 +1,51 @@
-﻿namespace social_media.Repository.CommentRepository
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using social_media.Contexts;
+using social_media.DTO.Comment;
+using social_media.DTO.User;
+using social_media.Models;
+
+namespace social_media.Repository.CommentRepository
 {
-    public class CommentRepository : ICommentRepository
+    public class CommentRepository(DataContext context) : ICommentRepository
     {
+        public async Task<List<Comment>> GetAll()
+        {
+            var comments = await context.Comments.ToListAsync();
+            return comments;
+        }
+
+        public async Task<Comment> Get(Guid id)
+        {
+            var comment = await context.Comments.FindAsync(id);
+            return comment;
+        }
+        public async Task<List<Comment>> GetCommentsByUser(User user)
+        {
+            var comments = await context.Comments.Where(c => c.User == user).ToListAsync();
+            return comments;
+        }
+        public async Task<Comment> Create(Comment comment)
+        {
+            await context.Comments.AddAsync(comment);
+            await context.SaveChangesAsync();
+            return comment;
+        }
+        public async Task<Comment> Update(Guid id, [FromBody] UpdateCommentDto updateCommentDto)
+        {
+            var comment = await Get(id);
+            comment.Content = updateCommentDto.Content;
+
+            await context.SaveChangesAsync();
+
+            return comment;
+        }
+        public async Task<Comment> Delete(Guid id)
+        {
+            var comment = await Get(id);
+            context.Comments.Remove(comment);
+            await context.SaveChangesAsync();
+            return comment;
+        }
     }
 }

@@ -11,6 +11,6 @@ namespace social_media.Contexts
         public DbSet<User> Users => Set<User>();
         public DbSet<Post> Posts => Set<Post>();
         public DbSet<Media> Media => Set<Media>();
-        public DbSet<Comments> Comments => Set<Comments>();
+        public DbSet<Comment> Comments => Set<Comment>();
     }
 }

@@ -33,7 +33,7 @@ namespace social_media.Repository.UserRepository
             user.Username = updateUserDto.Username;
             user.Password = updateUserDto.Password;
             user.IsPublic = updateUserDto.IsPublic;
-            user.IsContentCreator = updateUserDto.IsPrivate;
+            user.IsContentCreator = updateUserDto.IsContentCreator;
 
             await context.SaveChangesAsync();
            

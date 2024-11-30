@@ -20,6 +20,11 @@ namespace social_media.Services.PostService
             var post = await postRepository.Get(id);
             return post;
         }
+        public async Task<List<Post>> GetPostsByUser(User user)
+        {
+            var posts = await postRepository.GetPostsByUser(user);
+            return posts;
+        }
         public async Task<Post> Create([FromBody] CreatePostDto createPostDto)
         {
             var post = new Post()
