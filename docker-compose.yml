@@ -17,7 +17,7 @@ services:
 
   server:
     build:
-      context: ./social-media
+      context: ./social_media
       dockerfile: Dockerfile
     ports:
       - "8081:8080"
@@ -26,7 +26,7 @@ services:
     develop:
       watch:
         - action: rebuild
-          path: ./social-media
+          path: ./social_media
     depends_on:
       - sql
     networks:
