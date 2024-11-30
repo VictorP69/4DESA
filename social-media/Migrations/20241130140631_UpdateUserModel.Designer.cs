@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using social_media.Contexts;
 
@@ -11,9 +12,11 @@ using social_media.Contexts;
 namespace social_media.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20241130140631_UpdateUserModel")]
+    partial class UpdateUserModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,7 +25,7 @@ namespace social_media.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
-            modelBuilder.Entity("social_media.Models.Comments", b =>
+            modelBuilder.Entity("social_media.Models.Comment", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -122,6 +125,10 @@ namespace social_media.Migrations
                         .HasColumnType("varchar(100)")
                         .HasColumnName("Email");
 
+                    b.Property<bool>("IsContentCreator")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("IsContentCreator");
+
                     b.Property<bool>("IsPublic")
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("IsPublic");
@@ -142,7 +149,7 @@ namespace social_media.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("social_media.Models.Comments", b =>
+            modelBuilder.Entity("social_media.Models.Comment", b =>
                 {
                     b.HasOne("social_media.Models.Post", "Post")
                         .WithMany()

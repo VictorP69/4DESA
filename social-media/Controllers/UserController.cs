@@ -8,7 +8,7 @@ namespace social_media.Controllers
 {
     [ApiController]
     [Route("user")]
-    public class UserController(IUserService userService) : Controller
+    public class UserController(IUserService userService) : ControllerBase
     {
         [HttpGet]
         public async Task<ApiResponse<List<User>>> All()

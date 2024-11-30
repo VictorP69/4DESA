@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using social_media.DTO.Comment;
-using social_media.DTO.Post;
 using social_media.Models;
 using social_media.Repository.CommentRepository;
-using social_media.Repository.PostRepository;
 
 namespace social_media.Services.CommentService
 {

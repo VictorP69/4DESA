@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using social_media.DTO.User;
+using social_media.DTO.Post;
 using social_media.Models;
 
 namespace social_media
@@ -10,6 +11,8 @@ namespace social_media
         {
             CreateMap<PostUserDto, User>();
             CreateMap<User, PostUserDto>();
+            CreateMap<Post, PostDto>() ;
+            CreateMap<PostDto, Post>();
         }
     }
 }

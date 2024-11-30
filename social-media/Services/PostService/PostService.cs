@@ -5,10 +5,11 @@ using social_media.DTO.User;
 using social_media.Models;
 using social_media.Repository.PostRepository;
 using social_media.Repository.UserRepository;
+using social_media.Services.UserService;
 
 namespace social_media.Services.PostService
 {
-    public class PostService(IPostRepository postRepository, IMapper mapper) : IPostService
+    public class PostService(IPostRepository postRepository, IMapper mapper, IUserService userService) : IPostService
     {
         public async Task<List<Post>> GetAll()
         {
@@ -20,16 +21,26 @@ namespace social_media.Services.PostService
             var post = await postRepository.Get(id);
             return post;
         }
-        public async Task<List<Post>> GetPostsByUser(User user)
+        public async Task<List<Post>> GetPostsByUser(Guid userId)
         {
+            var user = await userService.Get(userId);
+            if (user == null)
+            {
+                return null;
+            }
             var posts = await postRepository.GetPostsByUser(user);
             return posts;
         }
         public async Task<Post> Create([FromBody] CreatePostDto createPostDto)
         {
+            var user = await userService.Get(createPostDto.UserId);
+            if (user == null)
+            {
+                return null;
+            }
             var post = new Post()
             {
-                User = mapper.Map<User>(createPostDto.User),
+                UserId = user.Id,
                 Title = createPostDto.Title,
                 Content = createPostDto.Content
             };
