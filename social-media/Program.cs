@@ -7,19 +7,24 @@ using social_media.Services.CommentService;
 using social_media.Services.MediaService;
 using social_media.Services.PostService;
 using social_media.Services.UserService;
+using DotNetEnv;
+using social_media.Repository.MediaRepository;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("DevConnection");
+DotNetEnv.Env.Load();
 
+builder.Configuration.AddEnvironmentVariables();
+
+builder.Configuration["AzureBlobStorage:ConnectionString"] = Environment.GetEnvironmentVariable("AZURE_BLOB_CONNECTION_STRING");
+builder.Configuration["AzureBlobStorage:ContainerName"] = Environment.GetEnvironmentVariable("AZURE_BLOB_CONTAINER_NAME");
+
+var connectionString = builder.Configuration.GetConnectionString("DevConnection");
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
 );
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
@@ -31,6 +36,7 @@ builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IMediaService, MediaService>();
+builder.Services.AddScoped<IMediaRepository, MediaRepository>();
 
 var app = builder.Build();
 
@@ -43,10 +49,9 @@ using (var scope = app.Services.CreateScope())
     {
         context.Database.Migrate();
     }
-
 }
 
-// Configure the HTTP request pipeline.
+// Configuration du pipeline HTTP
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -54,9 +59,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();

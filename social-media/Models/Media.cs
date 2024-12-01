@@ -8,9 +8,9 @@ namespace social_media.Models
         [Key]
         public Guid Id { get; init; }
 
-        [Column("Post")]
+        [Column("PostId")]
         [Required]
-        public required Post Post { get; init; }
+        public required Guid PostId { get; set; }
 
         [Column("Url")]
         [Required]

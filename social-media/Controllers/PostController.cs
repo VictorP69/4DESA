@@ -21,7 +21,6 @@ namespace social_media.Controllers
             {
                 return new ApiResponse<List<Post>>(500, errors: new List<string> { ex.Message });
             }
-
         }
 
         [HttpGet("{id}")]
@@ -70,7 +69,6 @@ namespace social_media.Controllers
                 return new ApiResponse<List<Post>>(500, errors: new List<string> { ex.Message });
             }
         }
-
         [HttpPut("{postId}")]
         public async Task<ApiResponse<Post>> Update(Guid postId, [FromBody] UpdatePostDto updatePostDto)
         {
