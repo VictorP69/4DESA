@@ -8,13 +8,13 @@ namespace social_media.Models
         [Key]
         public Guid Id { get; init; }
 
-        [Column("User")]
+        [Column("UserId")]
         [Required]
-        public required User User { get; init; }
+        public required Guid UserId { get; init; }
 
-        [Column("Post")]
+        [Column("PostId")]
         [Required]
-        public required Post Post { get; init; }
+        public required Guid PostId { get; init; }
 
         [Column("Content")]
         [Required]

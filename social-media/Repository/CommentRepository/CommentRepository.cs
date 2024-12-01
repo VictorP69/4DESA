@@ -22,7 +22,12 @@ namespace social_media.Repository.CommentRepository
         }
         public async Task<List<Comment>> GetCommentsByUser(User user)
         {
-            var comments = await context.Comments.Where(c => c.User == user).ToListAsync();
+            var comments = await context.Comments.Where(c => c.UserId == user.Id).ToListAsync();
+            return comments;
+        }
+        public async Task<List<Comment>> GetCommentsByPost(Post post)
+        {
+            var comments = await context.Comments.Where(c => c.PostId == post.Id).ToListAsync();
             return comments;
         }
         public async Task<Comment> Create(Comment comment)

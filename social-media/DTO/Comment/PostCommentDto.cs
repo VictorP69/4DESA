@@ -5,8 +5,8 @@ namespace social_media.DTO.Comment
 {
     public class PostCommentDto
     {
-        public required UserDto User { get; init; }
-        public required PostDto Post { get; init; }
+        public required Guid UserId { get; init; }
+        public required Guid PostId { get; init; }
         public required string Content { get; set; }
     }
 }

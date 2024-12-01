@@ -76,8 +76,8 @@ namespace social_media.Controllers
         {
             try
             {
-                var deletedPost = await postService.Update(postId, updatePostDto);
-                return new ApiResponse<Post>(200, deletedPost);
+                var updatedPost = await postService.Update(postId, updatePostDto);
+                return new ApiResponse<Post>(200, updatedPost);
             }
             catch (Exception ex)
             {
