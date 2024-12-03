@@ -58,7 +58,7 @@ namespace social_media.Controllers
         }
 
         [HttpGet("user/{userId}")]
-        public async Task<ApiResponse<List<Post>>> PostsByUser(Guid userId)
+        public async Task<ApiResponse<List<Post>>> PostsByUser(string userId)
         {
             try
             {

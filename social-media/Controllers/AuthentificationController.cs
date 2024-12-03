@@ -5,7 +5,6 @@ namespace social_media.Controllers
 {
     public class AuthentificationController : Controller
     {
-        // GET: AuthentificationController
         public ActionResult Login()
         {
             return View();

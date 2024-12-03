@@ -2,8 +2,8 @@
 {
     public class UpdateUserDto
     {
-        public required string Username { get; set; }
-        public required string Password { get; set; }
+        public required string UserName { get; set; }
+        public required string PasswordHash { get; set; }
         public bool IsPublic { get; set; }
         public bool IsContentCreator { get; set; }
     }

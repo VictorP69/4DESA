@@ -6,10 +6,10 @@ namespace social_media.Repository.UserRepository
 {
     public interface IUserRepository
     {
-        public Task<List<User>> GetAll();
-        public Task<User> Get(Guid id);
-        public Task<User> Create([FromBody] User user);
-        public Task<User> Update(Guid id, [FromBody] UpdateUserDto updateUserDto);
-        public Task<User> Delete(Guid id);
+        public Task<List<UserDto>> GetAll();
+        public Task<UserDto> Get(string id);
+        public Task<UserDto> Create([FromBody] User user);
+        public Task<UserDto> Update(string id, [FromBody] UpdateUserDto updateUserDto);
+        public Task<UserDto> Delete(string id);
     }
 }

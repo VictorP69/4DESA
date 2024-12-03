@@ -8,7 +8,7 @@ namespace social_media.Repository.PostRepository
     {
         public Task<List<Post>> GetAll();
         public Task<Post> Get(Guid id);
-        public Task<List<Post>> GetPostsByUser(User user);
+        public Task<List<Post>> GetPostsByUser(string userId);
         public Task<Post> Create([FromBody] Post post);
         public Task<Post> Update(Guid id, [FromBody] UpdatePostDto updatePostDto);
         public Task<Post> Delete(Guid id);

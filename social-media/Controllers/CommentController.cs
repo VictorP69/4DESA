@@ -61,7 +61,7 @@ namespace social_media.Controllers
         }
 
         [HttpGet("user/{userId}")]
-        public async Task<ApiResponse<List<Comment>>> CommentsByUser(Guid userId)
+        public async Task<ApiResponse<List<Comment>>> CommentsByUser(string userId)
         {
             try
             {

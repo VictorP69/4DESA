@@ -20,9 +20,9 @@ namespace social_media.Repository.CommentRepository
             var comment = await context.Comments.FindAsync(id);
             return comment;
         }
-        public async Task<List<Comment>> GetCommentsByUser(User user)
+        public async Task<List<Comment>> GetCommentsByUser(string userId)
         {
-            var comments = await context.Comments.Where(c => c.UserId == user.Id).ToListAsync();
+            var comments = await context.Comments.Where(c => c.UserId == userId).ToListAsync();
             return comments;
         }
         public async Task<List<Comment>> GetCommentsByPost(Post post)

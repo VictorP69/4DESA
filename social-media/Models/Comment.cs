@@ -10,7 +10,7 @@ namespace social_media.Models
 
         [Column("UserId")]
         [Required]
-        public required Guid UserId { get; init; }
+        public required string UserId { get; init; }
 
         [Column("PostId")]
         [Required]
