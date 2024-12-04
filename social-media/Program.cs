@@ -14,17 +14,24 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using social_media.Middleware;
 using social_media.Services.AuthService;
+using DotNetEnv;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration.AddEnvironmentVariables();
+Env.TraversePath().Load();
+
+builder.Configuration["ConnectionStrings:DevConnection"] = Environment.GetEnvironmentVariable("MYSQL_CONNECTION_STRING");
+builder.Configuration["AzureBlobStorage:ConnectionString"] = Environment.GetEnvironmentVariable("AZURE_BLOB_CONNECTION_STRING");
+builder.Configuration["AzureBlobStorage:ContainerName"] = Environment.GetEnvironmentVariable("AZURE_BLOB_CONTAINER_NAME");
+
+var connectionString = builder.Configuration.GetConnectionString("DevConnection");
 
 builder.Services.AddIdentityApiEndpoints<User>().AddEntityFrameworkStores<DataContext>();
 
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
 builder.Services.AddDbContext<DataContext>(options =>
-    options.UseSqlServer(builder.Configuration["ConnectionStrings:DevConnection"]));
+    options.UseSqlServer(connectionString));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
