@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Security.Claims;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using social_media.DTO.Comment;
 using social_media.Models;
@@ -8,7 +9,7 @@ using social_media.Services.UserService;
 
 namespace social_media.Services.CommentService
 {
-    public class CommentService(ICommentRepository commentRepository, IMapper mapper, IUserService userService, IPostService postService) : ICommentService
+    public class CommentService(ICommentRepository commentRepository, IMapper mapper, IUserService userService, IPostService postService, IHttpContextAccessor httpContextAccessor) : ICommentService
     {
         public async Task<List<Comment>> GetAll()
         {
@@ -63,6 +64,33 @@ namespace social_media.Services.CommentService
         {
             var deletedComment = await commentRepository.Delete(id);
             return deletedComment;
+        }
+
+        public async Task<Comment> HideComment(Guid commentId)
+        {
+            var currentUserId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (currentUserId is null)
+            {
+                throw new Exception("User must be logged in");
+            }
+
+            var comment = await commentRepository.Get(commentId);
+            if (comment is null)
+            {
+                throw new Exception("Comment could not be found");
+            }
+            
+            var originalPost = await postService.Get(comment.PostId)!;
+
+            if (originalPost.UserId != currentUserId)
+            {
+                throw new Exception("You can't hide this comment");
+            }
+            
+            comment.IsHidden = true;
+            commentRepository.Save();
+
+            return comment;
         }
     }
 }

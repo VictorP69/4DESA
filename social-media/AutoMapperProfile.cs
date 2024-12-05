@@ -3,6 +3,7 @@ using social_media.DTO.User;
 using social_media.DTO.Post;
 using social_media.Models;
 using Microsoft.AspNetCore.Identity;
+using social_media.DTO.Comment;
 
 namespace social_media
 {
@@ -14,8 +15,10 @@ namespace social_media
             CreateMap<User, PostUserDto>();
             CreateMap<Post, PostDto>() ;
             CreateMap<PostDto, Post>();
+            CreateMap<Post, DetailedPostDto>();
             CreateMap<UserDto, User>();
             CreateMap<User, UserDto>();
+            CreateMap<Comment, CommentDto>();
         }
     }
 }

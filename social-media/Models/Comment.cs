@@ -22,5 +22,8 @@ namespace social_media.Models
 
         [Column("CreatedAt")]
         public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+        [Column("isHidden")]
+        public bool IsHidden { get; set; } = false;
     }
 }

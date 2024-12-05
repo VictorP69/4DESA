@@ -1,25 +1,38 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using social_media.DTO.Comment;
 using social_media.DTO.Post;
 using social_media.DTO.User;
 using social_media.Models;
+using social_media.Repository.CommentRepository;
 using social_media.Repository.PostRepository;
 using social_media.Repository.UserRepository;
 using social_media.Services.UserService;
 
 namespace social_media.Services.PostService
 {
-    public class PostService(IPostRepository postRepository, IMapper mapper, IUserService userService) : IPostService
+    public class PostService(IPostRepository postRepository, IMapper mapper, IUserService userService, ICommentRepository commentRepository) : IPostService
     {
         public async Task<List<Post>> GetAll()
         {
             var posts = await postRepository.GetAll();
             return posts;
         }
+
         public async Task<Post> Get(Guid id)
         {
             var post = await postRepository.Get(id);
             return post;
+        }
+
+        public async Task<DetailedPostDto> GetDetailedPost(Guid id)
+        {
+            var post = await postRepository.Get(id);
+            var comments = await commentRepository.GetCommentsByPost(id);
+            var postDto = mapper.Map<DetailedPostDto>(post);
+            var commentsDto = comments.Select(x => mapper.Map<CommentDto>(x)).ToList();
+            postDto.Comments = commentsDto;
+            return postDto;
         }
         public async Task<List<Post>> GetPostsByUser(string userId)
         {

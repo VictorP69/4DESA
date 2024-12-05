@@ -13,5 +13,6 @@ namespace social_media.Services.CommentService
         public Task<Comment> Create([FromBody] PostCommentDto postCommentDto);
         public Task<Comment> Update(Guid id, [FromBody] UpdateCommentDto updateCommentDto);
         public Task<Comment> Delete(Guid id);
+        public Task<Comment> HideComment(Guid commentId);
     }
 }

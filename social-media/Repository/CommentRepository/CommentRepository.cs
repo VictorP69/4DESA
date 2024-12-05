@@ -52,5 +52,16 @@ namespace social_media.Repository.CommentRepository
             await context.SaveChangesAsync();
             return comment;
         }
+
+        public Task<List<Comment>> GetCommentsByPost(Guid postId)
+        {
+            var comments = context.Comments.Where(c => c.PostId == postId);
+            return comments.ToListAsync();
+        }
+
+        public void Save()
+        { 
+            context.SaveChanges();
+        }
     }
 }
