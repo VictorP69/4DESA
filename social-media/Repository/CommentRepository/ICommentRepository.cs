@@ -13,5 +13,7 @@ namespace social_media.Repository.CommentRepository
         public Task<Comment> Create(Comment comment);
         public Task<Comment> Update(Guid id, [FromBody] UpdateCommentDto updateCommentDto);
         public Task<Comment> Delete(Guid id);
+        public Task<List<Comment>> GetCommentsByPost(Guid postId);
+        public void Save();
     }
 }

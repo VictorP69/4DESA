@@ -12,5 +12,6 @@ namespace social_media.DTO.Comment
         public required PostDto Post { get; init; }
         public required string Content { get; set; }
         public DateTime CreatedAt { get; set; }
+        public bool IsHidden { get; set; }
     }
 }

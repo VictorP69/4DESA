@@ -24,19 +24,19 @@ namespace social_media.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ApiResponse<Post>> Details(Guid id)
+        public async Task<ApiResponse<DetailedPostDto>> Details(Guid id)
         {
             try
             {
-                var post = await postService.Get(id);
+                var post = await postService.GetDetailedPost(id);
                 if (post == null)
                 {
-                    return new ApiResponse<Post>(404, errors: new List<string> { "Post not found" });
+                    return new ApiResponse<DetailedPostDto>(404, errors: new List<string> { "Post not found" });
                 }
-                return new ApiResponse<Post>(200, post);
+                return new ApiResponse<DetailedPostDto>(200, post);
             } catch(Exception ex)
             {
-                return new ApiResponse<Post>(500, errors: new List<string> { ex.Message });
+                return new ApiResponse<DetailedPostDto>(500, errors: new List<string> { ex.Message });
             }
         }
 

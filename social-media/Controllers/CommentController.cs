@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using social_media.DTO.Comment;
 using social_media.Models;
@@ -109,6 +110,21 @@ namespace social_media.Controllers
             catch (Exception ex)
             {
                 return new ApiResponse<Comment>(500, errors: new List<string> { ex.Message });
+            }
+        }
+
+        [Authorize]
+        [HttpGet("hide/{commentId}")]
+        public async Task<ApiResponse<Comment>> HideComment(Guid commentId)
+        {
+            try
+            {
+                var hidedComment = await commentService.HideComment(commentId);
+                return new ApiResponse<Comment>(200, hidedComment);
+            }
+            catch (Exception e)
+            {
+                return new ApiResponse<Comment>(400, errors: new List<string> { e.Message });
             }
         }
     }
