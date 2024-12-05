@@ -10,7 +10,7 @@ namespace social_media.Models
 
         [Column("User")]
         [Required]
-        public required Guid UserId { get; set; }
+        public required string UserId { get; set; }
 
         [Column("Title")]
         [MaxLength(100)]

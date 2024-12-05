@@ -8,18 +8,44 @@ using social_media.Services.MediaService;
 using social_media.Services.PostService;
 using social_media.Services.UserService;
 using social_media.Repository.MediaRepository;
+using Microsoft.AspNetCore.Identity;
+using social_media.Models;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Filters;
+using social_media.Middleware;
+using social_media.Services.AuthService;
+using DotNetEnv;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration.AddEnvironmentVariables();
+Env.TraversePath().Load();
+
+builder.Configuration["ConnectionStrings:DevConnection"] = Environment.GetEnvironmentVariable("MYSQL_CONNECTION_STRING");
+builder.Configuration["AzureBlobStorage:ConnectionString"] = Environment.GetEnvironmentVariable("AZURE_BLOB_CONNECTION_STRING");
+builder.Configuration["AzureBlobStorage:ContainerName"] = Environment.GetEnvironmentVariable("AZURE_BLOB_CONTAINER_NAME");
+
+var connectionString = builder.Configuration.GetConnectionString("DevConnection");
+
+builder.Services.AddIdentityApiEndpoints<User>().AddEntityFrameworkStores<DataContext>();
 
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
 builder.Services.AddDbContext<DataContext>(options =>
-    options.UseSqlServer(builder.Configuration["ConnectionStrings:DevConnection"]));
+    options.UseSqlServer(connectionString));
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Name = "Authorization",
+        Description = "Syntaxe : Bearer {votre token}",
+        Type = SecuritySchemeType.ApiKey
+    });
+    options.OperationFilter<SecurityRequirementsOperationFilter>();
+});
+
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -30,6 +56,8 @@ builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IMediaService, MediaService>();
 builder.Services.AddScoped<IMediaRepository, MediaRepository>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<AuthorizationFilter>();
 
 builder.Logging.AddConsole();
 builder.Logging.AddDebug();
@@ -49,9 +77,8 @@ using (var scope = app.Services.CreateScope())
 
 app.UseSwagger();
 app.UseSwaggerUI();
-
+app.MapIdentityApi<User>();
 app.MapGet("/", () => Results.Redirect("/swagger"));
-
 app.UseRouting();
 app.UseHttpsRedirection();
 app.UseAuthorization();

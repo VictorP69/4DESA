@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using social_media.DTO.Comment;
-using social_media.DTO.Post;
 using social_media.Models;
 using social_media.Services.CommentService;
-using social_media.Services.PostService;
-using System.Xml.Linq;
 
 namespace social_media.Controllers
 {
@@ -61,7 +58,7 @@ namespace social_media.Controllers
         }
 
         [HttpGet("user/{userId}")]
-        public async Task<ApiResponse<List<Comment>>> CommentsByUser(Guid userId)
+        public async Task<ApiResponse<List<Comment>>> CommentsByUser(string userId)
         {
             try
             {

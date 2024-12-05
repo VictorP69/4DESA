@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using social_media.DTO.Media;
 using social_media.Models;
 using social_media.Services.MediaService;
-using social_media.Services.PostService;
 
 namespace social_media.Controllers
 {

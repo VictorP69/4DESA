@@ -9,34 +9,23 @@ namespace social_media.Services.UserService
     public class UserService(IUserRepository userRepository, IMapper mapper) : IUserService
     {
 
-        public async Task<List<User>> GetAll()
+        public async Task<List<UserDto>> GetAll()
         {
             var users = await userRepository.GetAll();
             return users;
         }
 
-        public async Task<User> Get(Guid id)
+        public async Task<UserDto> Get(string id)
         {
             var user = await userRepository.Get(id);
             return user;
         }
-        public async Task<User> Create([FromBody] PostUserDto postUserDto)
-        {
-            var user = new User()
-            {
-                Username = postUserDto.Username,
-                Email = postUserDto.Email,
-                Password = postUserDto.Password,
-            };
-            var newUser = await userRepository.Create(user);
-            return newUser;
-        }
-        public async Task<User> Update(Guid id, [FromBody] UpdateUserDto updateUserDto)
+        public async Task<UserDto> Update(string id, [FromBody] UpdateUserDto updateUserDto)
         {
             var updatedUser = await userRepository.Update(id, updateUserDto);
             return updatedUser;
         }
-        public async Task<User> Delete(Guid id)
+        public async Task<UserDto> Delete(string id)
         {
             var deletedUser = await userRepository.Delete(id);
             return deletedUser;

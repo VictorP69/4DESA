@@ -20,14 +20,14 @@ namespace social_media.Services.CommentService
             var comment = await commentRepository.Get(id);
             return comment;
         }
-        public async Task<List<Comment>> GetCommentsByUser(Guid userId)
+        public async Task<List<Comment>> GetCommentsByUser(string userId)
         {
             var user = await userService.Get(userId);
             if (user == null)
             {
                 return null;
             }
-            var comments = await commentRepository.GetCommentsByUser(user);
+            var comments = await commentRepository.GetCommentsByUser(user.Id);
             return comments;
         }
         public async Task<List<Comment>> GetCommentsByPost(Guid postId)
